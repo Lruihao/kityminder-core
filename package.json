@@ -42,7 +42,7 @@
   ],
   "dependencies": {
     "json-diff": "^0.5.5",
-    "@7polo/kity": "^2.0.7",
+    "@7polo/kity": "^2.0.8",
     "seajs": "^2.3.0"
   },
   "devDependencies": {
