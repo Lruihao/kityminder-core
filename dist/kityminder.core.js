@@ -1,9 +1,10 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2018-09-17
- * https://github.com/fex-team/kityminder-core
- * GitHub: https://github.com/fex-team/kityminder-core.git 
+ * Kity Minder Core - v1.4.51 - 2024-01-21
+ * https://github.com/Lruihao/kityminder-core
+ * GitHub: https://github.com/Lruihao/kityminder-core.git 
  * Copyright (c) 2018 Baidu FEX; Licensed BSD-3-Clause
+ * 2024 Patch by Lruihao
  * ====================================================
  */
 
@@ -513,6 +514,8 @@ _p[9] = {
          *
          * @param {string} name 要执行的命令名称
          * @param {argument} args 要传递给命令的其它参数
+         *
+         * @patch 2022.10.19 @Lruihao 修复缺少 afterExecCommand hook
          */
             execCommand: function(name) {
                 if (!name) return null;
@@ -547,6 +550,8 @@ _p[9] = {
                         this._interactChange();
                     }
                 }
+                // Fix: afterExecCommand hook
+                this._fire(new MinderEvent("afterExecCommand", eventParams, false));
                 return result === undefined ? null : result;
             }
         });
@@ -1251,6 +1256,21 @@ _p[13] = {
                 var km = this;
                 name.split(/\s+/).forEach(function(n) {
                     km._listen(n.toLowerCase(), callback);
+                });
+                return this;
+            },
+            /**
+         * @patch 2022.10.26 @Lruihao 修复缺少 once 侦听指定事件一次
+         * @param {String} name 
+         * @param {Function} callback 
+         */
+            once: function(name, callback) {
+                var km = this;
+                name.split(/\s+/).forEach(function(n) {
+                    km._listen(n.toLowerCase(), function(e) {
+                        callback(e);
+                        km.off(n.toLowerCase(), arguments.callee);
+                    });
                 });
                 return this;
             },
@@ -4730,7 +4750,7 @@ _p[45] = {
         var DropHinter = kity.createClass("DropHinter", {
             base: kity.Group,
             constructor: function() {
-                this.callBase();
+                this.callBase2(kity.Group, "constructor", []);
                 this.rect = new kity.Rect();
                 this.addShape(this.rect);
             },
@@ -4745,7 +4765,7 @@ _p[45] = {
         var OrderHinter = kity.createClass("OrderHinter", {
             base: kity.Group,
             constructor: function() {
-                this.callBase();
+                this.callBase2(kity.Group, "constructor", []);
                 this.area = new kity.Rect();
                 this.path = new kity.Path();
                 this.addShapes([ this.area, this.path ]);
@@ -4771,6 +4791,9 @@ _p[45] = {
                 minder.getRenderContainer().addShapes([ this._dropHinter, this._orderHinter ]);
             },
             dragStart: function(position) {
+                if (this._minder._defaultOptions.readOnly) {
+                    return;
+                }
                 // 只记录开始位置，不马上开启拖放模式
                 // 这个位置同时是拖放范围收缩时的焦点位置（中心）
                 this._startPosition = position;
@@ -4840,6 +4863,9 @@ _p[45] = {
             //    1. 计算拖放源和允许的拖放目标
             //    2. 标记已启动
             _enterDragMode: function() {
+                if (this._minder._defaultOptions.readOnly) {
+                    return false;
+                }
                 this._calcDragSources();
                 if (!this._dragSources.length) {
                     this._startPosition = null;
@@ -5159,7 +5185,7 @@ _p[46] = {
             var Expander = kity.createClass("Expander", {
                 base: kity.Group,
                 constructor: function(node) {
-                    this.callBase();
+                    this.callBase2(kity.Group, "constructor", []);
                     this.radius = 6;
                     this.outline = new kity.Circle(this.radius).stroke("gray").fill("white");
                     this.sign = new kity.Path().stroke("gray");
@@ -5169,7 +5195,8 @@ _p[46] = {
                     this.setStyle("cursor", "pointer");
                 },
                 initEvent: function(node) {
-                    this.on("mousedown", function(e) {
+                    var target = this.node;
+                    target.addEventListener("mousedown", function(e) {
                         minder.select([ node ], true);
                         if (node.isExpanded()) {
                             node.collapse();
@@ -5181,7 +5208,7 @@ _p[46] = {
                         e.stopPropagation();
                         e.preventDefault();
                     });
-                    this.on("dblclick click mouseup", function(e) {
+                    target.addEventListener("dblclick click mouseup", function(e) {
                         e.stopPropagation();
                         e.preventDefault();
                     });
@@ -6214,7 +6241,7 @@ _p[54] = {
             var NoteIcon = kity.createClass("NoteIcon", {
                 base: kity.Group,
                 constructor: function() {
-                    this.callBase();
+                    this.callBase2(kity.Group, "constructor", []);
                     this.width = 16;
                     this.height = 17;
                     this.rect = new kity.Rect(16, 17, .5, -8.5, 2).fill("transparent");
@@ -6420,7 +6447,7 @@ _p[56] = {
             var PriorityIcon = kity.createClass("PriorityIcon", {
                 base: kity.Group,
                 constructor: function() {
-                    this.callBase();
+                    this.callBase2(kity.Group, "constructor", []);
                     this.setSize(20);
                     this.create();
                     this.setId(utils.uuid("node_priority"));
@@ -6549,7 +6576,7 @@ _p[57] = {
             var ProgressIcon = kity.createClass("ProgressIcon", {
                 base: kity.Group,
                 constructor: function(value) {
-                    this.callBase();
+                    this.callBase2(kity.Group, "constructor", []);
                     this.setSize(20);
                     this.create();
                     this.setValue(value);
@@ -6881,7 +6908,7 @@ _p[58] = {
             var ResourceOverlay = kity.createClass("ResourceOverlay", {
                 base: kity.Group,
                 constructor: function() {
-                    this.callBase();
+                    this.callBase2(kity.Group, "constructor", []);
                     var text, rect;
                     rect = this.rect = new kity.Rect().setRadius(4);
                     text = this.text = new kity.Text().setFontSize(12).setVerticalAlign("middle");
