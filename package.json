@@ -28,7 +28,8 @@
   ],
   "scripts": {
     "dev": "grunt dev",
-    "build": "grunt build"
+    "build": "grunt build",
+    "version": "npm run build && git add dist/*"
   },
   "bugs": {
     "url": "https://github.com/Lruihao/kityminder-core/issues"
