@@ -237,6 +237,22 @@ define(function(require, exports, module) {
             return this;
         },
 
+        /**
+         * @patch 2022.10.26 @Lruihao 修复缺少 once 侦听指定事件一次
+         * @param {String} name 
+         * @param {Function} callback 
+         */
+        once: function(name, callback) {
+          var km = this;
+          name.split(/\s+/).forEach(function(n) {
+              km._listen(n.toLowerCase(), function(e) {
+                callback(e);
+                km.off(n.toLowerCase(), arguments.callee);
+              });
+          });
+          return this;
+        },
+
         off: function(name, callback) {
 
             var types = name.split(/\s+/);

@@ -114,6 +114,8 @@ define(function(require, exports, module) {
          *
          * @param {string} name 要执行的命令名称
          * @param {argument} args 要传递给命令的其它参数
+         *
+         * @patch 2022.10.19 @Lruihao 修复缺少 afterExecCommand hook
          */
         execCommand: function(name) {
             if (!name) return null;
@@ -161,6 +163,8 @@ define(function(require, exports, module) {
                 }
             }
 
+            // Fix: afterExecCommand hook
+            this._fire(new MinderEvent("afterExecCommand", eventParams, false));
             return result === undefined ? null : result;
         }
     });
