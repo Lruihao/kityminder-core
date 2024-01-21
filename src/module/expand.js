@@ -130,7 +130,7 @@ define(function(require, exports, module) {
             base: kity.Group,
 
             constructor: function(node) {
-                this.callBase();
+                this.callBase2(kity.Group, 'constructor', []);
                 this.radius = 6;
                 this.outline = new kity.Circle(this.radius).stroke('gray').fill('white');
                 this.sign = new kity.Path().stroke('gray');
@@ -141,7 +141,8 @@ define(function(require, exports, module) {
             },
 
             initEvent: function(node) {
-                this.on('mousedown', function(e) {
+                var target = this.node;
+                target.addEventListener('mousedown', function(e) {
                     minder.select([node], true);
                     if (node.isExpanded()) {
                         node.collapse();
@@ -153,7 +154,7 @@ define(function(require, exports, module) {
                     e.stopPropagation();
                     e.preventDefault();
                 });
-                this.on('dblclick click mouseup', function(e) {
+                target.addEventListener('dblclick click mouseup', function(e) {
                     e.stopPropagation();
                     e.preventDefault();
                 });

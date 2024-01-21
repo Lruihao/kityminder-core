@@ -27,7 +27,7 @@ define(function(require, exports, module) {
         base: kity.Group,
 
         constructor: function() {
-            this.callBase();
+            this.callBase2(kity.Group, 'constructor', []);
             this.rect = new kity.Rect();
             this.addShape(this.rect);
         },
@@ -51,7 +51,7 @@ define(function(require, exports, module) {
         base: kity.Group,
 
         constructor: function() {
-            this.callBase();
+            this.callBase2(kity.Group, 'constructor', []);
             this.area = new kity.Rect();
             this.path = new kity.Path();
             this.addShapes([this.area, this.path]);
@@ -83,6 +83,9 @@ define(function(require, exports, module) {
         },
 
         dragStart: function(position) {
+            if (this._minder._defaultOptions.readOnly) {
+                return;
+            }
             // 只记录开始位置，不马上开启拖放模式
             // 这个位置同时是拖放范围收缩时的焦点位置（中心）
             this._startPosition = position;
@@ -174,6 +177,9 @@ define(function(require, exports, module) {
         //    1. 计算拖放源和允许的拖放目标
         //    2. 标记已启动
         _enterDragMode: function() {
+            if (this._minder._defaultOptions.readOnly) {
+                return false;
+            }
             this._calcDragSources();
             if (!this._dragSources.length) {
                 this._startPosition = null;

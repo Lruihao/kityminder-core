@@ -38,7 +38,8 @@ define(function(require, exports, module) {
             base: kity.Group,
 
             constructor: function(value) {
-                this.callBase();
+                this.callBase2(kity.Group, 'constructor', []);
+
                 this.setSize(20);
                 this.create();
                 this.setValue(value);

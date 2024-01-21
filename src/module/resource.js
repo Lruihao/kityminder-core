@@ -191,7 +191,7 @@ define(function(require, exports, module) {
             base: kity.Group,
 
             constructor: function() {
-                this.callBase();
+                this.callBase2(kity.Group, 'constructor', []);
 
                 var text, rect;
 

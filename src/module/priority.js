@@ -35,7 +35,7 @@ define(function(require, exports, module) {
             base: kity.Group,
 
             constructor: function() {
-                this.callBase();
+                this.callBase2(kity.Group, 'constructor', []);
                 this.setSize(20);
                 this.create();
                 this.setId(utils.uuid('node_priority'));

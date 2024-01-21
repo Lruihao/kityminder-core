@@ -53,7 +53,7 @@ define(function(require, exports, module) {
             base: kity.Group,
 
             constructor: function() {
-                this.callBase();
+                this.callBase2(kity.Group, 'constructor', []);
                 this.width = 16;
                 this.height = 17;
                 this.rect = new kity.Rect(16, 17, 0.5, -8.5, 2).fill('transparent');
