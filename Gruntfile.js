@@ -24,8 +24,9 @@ module.exports = function(grunt) {
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
         '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
         ' * GitHub: <%= pkg.repository.url %> \n' +
-        ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
+        ' * Copyright (c) 2018 <%= pkg.original.name %>;' +
         ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n' +
+        ' * <%= grunt.template.today("yyyy") %> Patch by <%= pkg.author.name %>\n' +
         ' * ====================================================\n' +
         ' */\n\n';
 

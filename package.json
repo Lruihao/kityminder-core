@@ -1,10 +1,14 @@
 {
-  "name": "kityminder-core",
+  "name": "@cell-x/kityminder-core",
   "title": "Kity Minder Core",
   "description": "KityMinder Core Implement",
   "version": "1.4.50",
-  "homepage": "https://github.com/fex-team/kityminder-core",
+  "homepage": "https://github.com/Lruihao/kityminder-core",
   "author": {
+    "name": "Lruihao",
+    "url": "http://lruihao.cn"
+  },
+  "original": {
     "name": "Baidu FEX",
     "url": "http://fex.baidu.com"
   },
@@ -12,7 +16,7 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fex-team/kityminder-core.git"
+    "url": "https://github.com/Lruihao/kityminder-core.git"
   },
   "keywords": [
     "kityminder",
@@ -27,12 +31,12 @@
     "build": "grunt build"
   },
   "bugs": {
-    "url": "https://github.com/fex-team/kityminder-core/issues"
+    "url": "https://github.com/Lruihao/kityminder-core/issues"
   },
   "licenses": [
     {
       "type": "BSD-3-Clause",
-      "url": "https://github.com/fex-team/kityminder-core/blob/dev/LICENSE"
+      "url": "https://github.com/Lruihao/kityminder-core/blob/dev/LICENSE"
     }
   ],
   "dependencies": {
